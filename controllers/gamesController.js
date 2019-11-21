@@ -27,7 +27,7 @@ exports.initializeDictionary = (req, res) => {
 exports.newGame = (req, res) => {
   // initializes a game with dictionary defined in previous method
   // populates tiles with letters from test json file 1 
-  let board = new GameBoard({
+  let board = new Board({
     dimentions: 4, //hardcoding for this assignment but can be assigned a dynamic value
     users: []
   });
