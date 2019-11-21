@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router({ mergeParams : true });
 
 const {
-  initializeBoard,
+  initializeDictionary,
   newGame,
   gameMove
 } = require('../controllers/gamesController')
 
 
 router.route('/games')
-  .get(initializeBoard)
+  .get(initializeDictionary)
   .post(newGame)
   .patch(gameMove)
 
-  
+
 module.exports = router
