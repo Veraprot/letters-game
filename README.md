@@ -1,27 +1,7 @@
-# Noken • Backend Interview • Letters game
 
-_Version 1.0.1_
+# Letters Game
 
-## This is a coding challenge for applicants interested in joining Noken as Backend Engineers.
-
-We ask you to _read this file carefully_ **before** you begin writing a solution.
-
-There is a Q&A and an example section at the end of the file, which may help you to complete this challenge faster.
-
-If you decide to continue with this process, **write us back WHEN** you expect to submit your solution before you begin implementing it.
-This is really important so we can better arrange to wait for you, specially if you want to take a little bit longer.
-
-If you decide NOT to continue with this process, let us know! ... So we stop spamming you with reminders.
-
-We sincerely thank you for your interest and your time.
-
-Best,
-The Noken team!
-
-## Submit the minimum posible
-
-- You should **not implement features not required explicitely**.
-- Coding more than required will waste your time, and waste our time. Please, don't.
+- **do not implement features not required explicitely**.
 
 ## Challenge: Create an API server/application
 
@@ -29,9 +9,6 @@ The Noken team!
   - Define the game's known dictionary (see bellow).
   - Start a new game by providing a board.
   - Validate a play.
-- You can use any boilerplate or start project. If you need help with this, let us know and we will share a quick-starter project promptly.
-- Keep your code **separated from the boilerplate**, so it's easier to review your work.
-- We prefer TypeScript or typed JavaScript, or GoLang.
 
 ### Rules of the game
 
