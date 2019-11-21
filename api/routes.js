@@ -7,4 +7,11 @@ const {
   gameMove
 } = require('../controllers/gamesController')
 
+
+router.route('/games')
+  .get(initializeBoard)
+  .post(newGame)
+  .patch(gameMove)
+
+  
 module.exports = router
