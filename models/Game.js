@@ -2,7 +2,7 @@
 // 1. a table for all the games with tiles 
 // 2. Table for Players 
 // Table for Moves of a game 
-// board => dimentions 
+// board => dimentions matrix [4] x [4]
 // tiles => x and y axis [width][height]
 
 

@@ -141,7 +141,3 @@ This board (obviously) does NOT include the following words from our [dictionary
 - LURE
 - RENT
 - STREET
-
-## Thanks for your time!
-
-The Noken team!
