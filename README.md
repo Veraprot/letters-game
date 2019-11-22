@@ -1,143 +1,191 @@
 
 # Letters Game
+API server/application built on Nodejs. 
 
-- **do not implement features not required explicitely**.
+# Requirements
+    Node (8.11.1)
+    NPM (5.8.0)
+    MongoDB (3.6.3)
 
-## Challenge: Create an API server/application
-
-- Write a server application that offers at least 3 endpoints:
-  - Define the game's known dictionary (see bellow).
-  - Start a new game by providing a board.
-  - Validate a play.
-
-### Rules of the game
-
-- Each game has a board of 16 tiles (4x4):
-  - Tiles have a single letter to each of them.
-- Players for a game can make a play by selecting a series of tiles to form words.
-- Plays are valid if the tiles satisfy all these conditions:
-  - Consecutive tiles are neighbors (including diagonals).
-  - Tiles can only be used once in each play, but they can be used again in future plays.
-  - The formed word is at least 3 letters.
-  - The formed word is present in the app's dictionary.
-
-### API design
-
-Design an API to play, including endpoints to allow:
-
-- Defining the app's dictionary.
-- Starting a new game with a specific board distribution.
-- Validating a play on one of the games previously started.
-
-### Implementing your code
-
-- Your app should satify the rules of the game and follow your API design.
-- Your API routes should be documented (including parameters), implicitely (in code) or explicitely. 
-- You can use any type of persistance (app memory, in-memory database, database engine, etc).
-
-### Testing
-
-- Describe your testing strategy.
-- Implement a **single** test as an example of your testing strategy.
-  - You can submit more tests if it is required to demonstrate different aspects of your strategy.
-
-## Stretch goals
-
-These are **not required**, but would make your submission stand out. You can implement none, one or all of these. If you do, let us know your decision so we evaluate them.
-
-- Allow specific players to make plays.
-- It will track which words were already played by past plays, and won't allow the same player to submit the same word twice (even if it can be formed by sequences of different tiles).
-- Implement a new route to output the score: Valid plays score 1, 2, 4, 8, etc points for words with 3, 4, 5, 6, etc letters.
-
-#### Example
-
-In the following example, the app is initialized with the dictionary defined in [this json dictionary file](files/dictionary.json).
-
-Then, a game is initialized with the board in the [test json file 1](files/test-board-1.json). If we would get to visualize the board, it would look like this:
+# Quick Start 
+### Install dependencies for server
 
 ```
-    A  B  C  D
-    E  F  G  H
-    I  J  K  L
-    M  N  O  P
+npm install
 ```
 
-Then, a user submits the word "fab" formed by these tiles:
+### Make sure MongoDB is running on your system
 
+1. **Open mongo shell by running 'mongo' in command line and create a new database letters-game**
+
+     Shows all mongo databases on the local machine: 
+    
+    ``` 
+    show dbs 
+    ```
+
+    Switches to letters-game database: 
+    ```
+    use letters-game 
+    ```
+    
+
+2. **Create .env file in the root directory and add:**
+    ```
+    MONGO_URI = 'mongodb://localhost:27017/letters-game'
+    ```
+
+# API Reference
+## API Resources: 
+- POST /api/dictionaries 
+- POST /api/games
+- PATCH /api/games/[id]
+
+------------------
+
+## POST /api/dictionaries
+
+### Response: 
 ```
-    A  B  C  D         [A] B  C  D         [A][B] C  D
-    E [F] G  H          E [F] G  H          E [F] G  H
-    I  J  K  L          I  J  K  L          I  J  K  L
-    M  N  O  P          M  N  O  P          M  N  O  P
+{
+    "words": [
+        "array",
+        "arrays",
+        "art",
+        "arts",
+        "fab",
+        "fast",
+        "fat",
+        "fist",
+        "lift",
+        "lifts",
+        "lire",
+        "list",
+        "load",
+        "loaf",
+        "loft",
+        "lost",
+        "lure",
+        "lust",
+        "rant",
+        "rat",
+        "rats",
+        "rent",
+        "rest",
+        "rust",
+        "sat",
+        "soft",
+        "sort",
+        "sos",
+        "soy",
+        "start",
+        "starts",
+        "street",
+        "tar",
+        "tart",
+        "tarts",
+        "toll",
+        "total",
+        "toy",
+        "toys",
+        "tray",
+        "trays"
+    ],
+    "_id": "5dd841315dec778d89662615",
+    "__v": 0
+}
+```
+----
+## POST /api/games
+## Body: 
+|  KEY          |  VALUE            | DESCRIPTION |
+| ------------- | ------------------| ----        |
+| dictionary_id | ex: 5dd82016763a  |   Unique object identifier 
+
+## Response: 
+```
+{
+    "tiles": [
+        [
+            "A",
+            "B",
+            "C",
+            "D"
+        ],
+        [
+            "E",
+            "F",
+            "G",
+            "H"
+        ],
+        [
+            "I",
+            "J",
+            "K",
+            "L"
+        ],
+        [
+            "M",
+            "N",
+            "O",
+            "P"
+        ]
+    ],
+    "_id": "5dd843ed4203548d979087d4",
+    "dimentions": 4,
+    "dictionary": "5dd82016763a1e7caa1f0daf",
+    "__v": 0
+}
 ```
 
-The server should accept the word. If you implement the score system (stretch goal), the score for this play is **1 point**.
+----
+## PATCH /api/games/[id]
+## Params: 
+|  KEY          |  VALUE               | DESCRIPTION      |
+| ------------- | ------------------   | ----             |
+| id            | ex: 5fd77802af3493a  |   Game object identifier
 
----
-
-## Submitting your work
-
-Your deliverable should satisfy all these requirements:
-
-- Describe what features you've implemented, included optional stretch goals.
-
-- It should include _instructions on how to run_ (installing dependencies, starting it, etc) and it shouldn't have any obscure environment requirements.
-
-- It should include _instructions on how to test_.
-
-- Describe your endpoints, and how to use them.
-
-- It should be submitted using one of the following alternatives:
-  1. bitbucket.org or github.com repo (_Note: Do NOT clone our repo because other candidates can find it_).
-  1. Upload a compressed file somewhere and send us the URL.
-  1. Email us your code.
-  - _Note: Do NOT include `node_modules` or any other files that will be auto-generated_.
-
----
-
-## Frequently asked question
-
-- Q: Can I use external libraries (npm)?
-  - Of course you can!
-  - However, if some functionality is very easy to implement, try to implement it yourself (i.e. Don't install a library to figure out if a number is odd/even).
-  - Choosing *when* to use libraries and *what libraries* you imported will speak about your judgement.
-- Q: This coding challenge is too long. Is it OK if I implement it partially?
-  - Although we recognize this exercise may take some time, it does measure if you have the skills we need to work at Noken.
-  - Submitting an incomplete solution is acceptable, specially if you explain the reasons.
-  - However, a complete solution will increase the likelihood of being selected to continue our process, and it will save time during our in-person interview.
-
----
-
-## Playing the Letters Game with our secondary file
-
-The [secondary board file](files/test-board-2.json) describes the following board:
-
+## Body: 
+|  KEY          |  VALUE                    | DESCRIPTION |
+| ------------- | ------------------        | ----        |
+| selected      | ex: [                     |User Letter Selection|
+|               |   {"row": 0, "column":0}, |             |
+|               |   {"row": 1, "column":0}, |             |
+|               |   {"row": 0, "column":1}  |             |
+|               | ]                         |             |
+## Response: 
 ```
-L I S T
-O F A T
-S T R S
-O R A Y
+{
+    "tiles": [
+        [
+            "A",
+            "B",
+            "C",
+            "D"
+        ],
+        [
+            "E",
+            "F",
+            "G",
+            "H"
+        ],
+        [
+            "I",
+            "J",
+            "K",
+            "L"
+        ],
+        [
+            "M",
+            "N",
+            "O",
+            "P"
+        ]
+    ],
+    "_id": "5dd843ed4203548d979087d4",
+    "dimentions": 4,
+    "dictionary": "5dd82016763a1e7caa1f0daf",
+    "__v": 0
+}
 ```
 
-When playing with the "neighbors rule", this board contains (at least) the following English words defined in [our (limited) dictionary file](files/dictionary.json).
-
-- ARTS
-- FAST
-- FIST
-- LIST
-- RATS
-- SOFT
-- SORT
-- START
-
-The following words cannot be formed in this board (because the tiles are not neighbors):
-- SOS (The letter S on the left can only be used ONCE)
-- TOLL (There's only ONE L)
-- TOTAL (No L is neighbor of an A)
-
-This board (obviously) does NOT include the following words from our [dictionary file](files/dictionary.json) (because there's neither D, E or U present in the board):
-
-- LOAD
-- LURE
-- RENT
-- STREET
