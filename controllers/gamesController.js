@@ -48,8 +48,6 @@ exports.gameMove = async (req, res) => {
 }
 
 parseUserData = (userInput, boardTiles) => {
-  console.log(boardTiles)
-  console.log(userInput[0].row)
   permutation = boardTiles[userInput[0].row][userInput[0].column]
   for(let i = 0; i < userInput.length - 1; i++) {
     if(checkNeighbors(userInput[i], userInput[i + 1])) {
