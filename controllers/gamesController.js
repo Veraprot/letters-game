@@ -28,7 +28,6 @@ exports.initializeDictionary = (req, res) => {
 
 exports.newGame = async (req, res) => {
   let dict = await Dictionary.findOne()
-  console.log(dict)
   let board = new Board({
     dimentions: 4, //hardcoding for this assignment but can be assigned a dynamic value
     tiles: buildBoardTiles(4),
@@ -45,7 +44,6 @@ exports.newGame = async (req, res) => {
 }
 
 buildBoardTiles = (boardSize) => {
-  console.log(boardSize)
   let rawdata = fs.readFileSync('./files/test-board-1.json');
   let letters = JSON.parse(rawdata).board;
 
