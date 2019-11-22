@@ -2,16 +2,20 @@ const express = require('express');
 const router = express.Router({ mergeParams : true });
 
 const {
-  initializeDictionary,
-  newGame,
+  postGames,
   gameMove
 } = require('../controllers/gamesController')
 
-
 router.route('/games')
-  .get(initializeDictionary)
-  .post(newGame)
+  .post(postGames)
+  
+router.route('/games/:id')
   .patch(gameMove)
+  
+const {
+  postDictionaries
+} = require('../controllers/dictionariesController')
 
+router.post('/dictionaries', postDictionaries)
 
 module.exports = router

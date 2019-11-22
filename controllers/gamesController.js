@@ -1,57 +1,67 @@
 const fs = require('fs');
 
-const Board = require('../models/Board');
+const Game = require('../models/Game');
 const Dictionary = require('../models/Dictionary');
 
-exports.initializeDictionary = (req, res) => {
-  let dictionaryData = fs.readFileSync('./files/dictionary.json');
-  let words = JSON.parse(dictionaryData).words;
+// POST
+// Endpoint: /api/games
+// required body: {
+//   dictionary_id: ObjectId(dictionary)  => id of a dictionary that the game belongs to 
+// }
+// Creates a new dictionary 
+exports.postGames = async (req, res) => {
+  const {dictionary_id} = req.body
 
-  let dictionary = new Dictionary({
-    words: words, 
+  let game = new Game({
+    dimentions: 4, //hardcoded for now, but can be refactored to be dynamic and grab dimentions set my user through request body
+    tiles: buildGameTiles(4),
+    dictionary: dictionary_id
   });
 
-  dictionary.save()
-    .then(dictionary => {
-      res.json(dictionary)
-    })
-    .catch(err => res.json(err))
-}
-
-exports.newGame = async (req, res) => {
-  let dict = await Dictionary.findOne()
-  let board = new Board({
-    dimentions: 4, 
-    tiles: buildBoardTiles(4),
-    dictionary: dict
-  });
-
-  board.save()
-    .then(board => {
-      res.json(board)
+  game.save()
+    .then(game => {
+      res.json(game)
     })
     .catch(err => {
       res.json(err)
     })
 }
 
+// PATCH
+// Endpoint: /api/games/:id
+// required body: {
+//   selected: [] => array of objects with row and column of selected letter
+// }
 exports.gameMove = async (req, res) => {
-  let rawdata = fs.readFileSync('./files/userInput.json');
-  let userInput = JSON.parse(rawdata).selected;
-  let board = await Board
-                    .findOne()
+  const {id} = req.params
+  const {selected} = req.body
+
+  // get game by id 
+  let game = await Game
+                    .findById(id)
                     .populate('dictionary', ['words'])
 
-  let userAnswer = parseUserData(userInput, board.tiles)
-  let gameResult = compareUserAnswer(board.dictionary.words, userAnswer)
+  // returns a string that matches user input 
+  let userAnswer = parseUserData(selected, game.tiles)
+
+  // compares userAnswer and words in dictionary
+  let gameResult = compareUserAnswer(game.dictionary.words, userAnswer)
   res.json({mes: gameResult})
 }
 
-parseUserData = (userInput, boardTiles) => {
-  permutation = boardTiles[userInput[0].row][userInput[0].column]
+// HELPER METHODS(will move somewhere else probably)
+
+//  checks user input against game board and words in dictionary and return word from dictionary that matches 
+parseUserData = (userInput, gameTiles) => {
+
+  // checkes letter in the board with row/column position 
+  // adds it to the string 
+  permutation = gameTiles[userInput[0].row][userInput[0].column]
   for(let i = 0; i < userInput.length - 1; i++) {
+
+    // checks if user input letters are concecutive/neightbors(are right next to each other on the board. If not then User input is incorrect and i have to write logic for edge cases )
     if(checkNeighbors(userInput[i], userInput[i + 1])) {
-      permutation += boardTiles[userInput[i + 1].row][userInput[i + 1].column]
+      permutation += gameTiles[userInput[i + 1].row][userInput[i + 1].column]
     }
   }
   return permutation.split('').sort().join('')
@@ -64,6 +74,8 @@ checkNeighbors = (currentInput, nextInput) => {
   )
 }
 
+// Takes in alphabetically sorted userAnswer string and 
+// checks whether it is equal to a permutation of a sorted string in dictionary
 compareUserAnswer = (dictionary, userResult) => {
   for(let i = 0; i < dictionary.length; i++) {
     if(dictionary[i].length == userResult.length) {
@@ -75,11 +87,19 @@ compareUserAnswer = (dictionary, userResult) => {
   }
 }
 
-buildBoardTiles = (boardSize) => {
-  let rawdata = fs.readFileSync('./files/test-board-1.json');
-  let letters = JSON.parse(rawdata).board;
+// takes in an array of letters from test-board-1.json file
+// creates a 2-dimentional array that holds game board letters and their position on the board
+// Example: 
+//  letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+//  output: [
+//          ['a', 'b', 'c', 'd'],
+//          ['e', 'f', 'g', 'h']
+//          ]
+buildGameTiles = (boardSize) => {
+  let boardData = fs.readFileSync('./files/test-board-1.json');
+  let letters = JSON.parse(boardData).board;
 
-  boardTiles = []
+  gameTiles = []
   for(let i = 0; i < boardSize; i++) {
     let row = []
 
@@ -87,8 +107,8 @@ buildBoardTiles = (boardSize) => {
       row.push(letters[i*boardSize + k]);
     }
 
-    boardTiles.push(row)
+    gameTiles.push(row)
   }
 
-  return boardTiles
+  return gameTiles
 }
