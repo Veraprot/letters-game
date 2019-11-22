@@ -1,5 +1,7 @@
 // const Game = require('../models/Game');
 // const Tile = require('../models/Tile');
+const ObjectId = mongoose.Types.ObjectId;
+
 const Board = require('../models/Board');
 const Dictionary = require('../models/Dictionary');
 
@@ -24,13 +26,41 @@ exports.initializeDictionary = (req, res) => {
     .catch(err => res.json(err))
 }
 
-exports.newGame = (req, res) => {
-  // initializes a game with dictionary defined in previous method
-  // populates tiles with letters from test json file 1 
+exports.newGame = async (req, res) => {
+  let dict = await Dictionary.findOne()
+  console.log(dict)
   let board = new Board({
     dimentions: 4, //hardcoding for this assignment but can be assigned a dynamic value
-    users: []
+    tiles: buildBoardTiles(4),
+    dictionary: dict
   });
+
+  board.save()
+    .then(board => {
+      res.json(board)
+    })
+    .catch(err => {
+      res.json(err)
+    })
+}
+
+buildBoardTiles = (boardSize) => {
+  console.log(boardSize)
+  let rawdata = fs.readFileSync('./files/test-board-1.json');
+  let letters = JSON.parse(rawdata).board;
+
+  boardTiles = []
+  for(let i = 0; i < boardSize; i++) {
+    let row = []
+
+    for(let k = 0; k < boardSize; k++) {
+      row.push(letters[i*boardSize + k]);
+    }
+
+    boardTiles.push(row)
+  }
+
+  return boardTiles
 }
 
 exports.gameMove = (req, res) => {
