@@ -46,7 +46,7 @@ exports.gameMove = async (req, res) => {
 
   // compares userAnswer and words in dictionary
   let gameResult = compareUserAnswer(game.dictionary.words, userAnswer)
-  res.json({mes: gameResult})
+  res.json({match: gameResult})
 }
 
 // HELPER METHODS(will move somewhere else probably)

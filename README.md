@@ -140,11 +140,6 @@ npm install
 
 ----
 ## PATCH /api/games/[id]
-## Params: 
-|  KEY          |  VALUE               | DESCRIPTION      |
-| ------------- | ------------------   | ----             |
-| id            | ex: 5fd77802af3493a  |   Game object identifier
-
 ## Body: 
 |  KEY          |  VALUE                    | DESCRIPTION |
 | ------------- | ------------------        | ----        |
