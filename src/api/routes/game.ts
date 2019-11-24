@@ -34,9 +34,14 @@ export default (app: Router) => {
         let game = await GameService.findById(id)
         let userAnswer = GameService.parseUserData(selected, game.tiles)
 
-        let gameResult = GameService.compareUserAnswer(game.dictionary.words, userAnswer)
+        if(userAnswer) {
+          let gameResult = GameService.compareUserAnswer(game.dictionary.words, userAnswer)
 
-        res.json({result: gameResult})
+          res.json({result: gameResult})
+        } else {
+          res.json({result: "User input not valid"})
+        }
+
 
       } catch (e) {
         console.log('error:', e);
