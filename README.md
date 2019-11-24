@@ -3,8 +3,8 @@
 API server/application built on Nodejs. 
 
 # Requirements
-    Node (8.11.1)
-    NPM (5.8.0)
+    Node (10.15.0)
+    NPM (6.4.1)
     MongoDB (3.6.3)
 
 # Quick Start 
@@ -151,35 +151,6 @@ npm install
 ## Response: 
 ```
 {
-    "tiles": [
-        [
-            "A",
-            "B",
-            "C",
-            "D"
-        ],
-        [
-            "E",
-            "F",
-            "G",
-            "H"
-        ],
-        [
-            "I",
-            "J",
-            "K",
-            "L"
-        ],
-        [
-            "M",
-            "N",
-            "O",
-            "P"
-        ]
-    ],
-    "_id": "5dd843ed4203548d979087d4",
-    "dimentions": 4,
-    "dictionary": "5dd82016763a1e7caa1f0daf",
-    "__v": 0
+    "result": "fab"
 }
 ```

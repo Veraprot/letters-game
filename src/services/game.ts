@@ -40,13 +40,15 @@ class GameService {
   }
 
   parseUserData = (userInput, gameTiles) => {
-    let permutation = gameTiles[userInput[0].row][userInput[0].column]
-    for(let i = 0; i < userInput.length - 1; i++) {
-      if(this.checkNeighbors(userInput[i], userInput[i + 1])) {
-        permutation += gameTiles[userInput[i + 1].row][userInput[i + 1].column]
+    if(userInput.length >= 3) {
+      let permutation = gameTiles[userInput[0].row][userInput[0].column]
+      for(let i = 0; i < userInput.length - 1; i++) {
+        if(this.checkNeighbors(userInput[i], userInput[i + 1])) {
+          permutation += gameTiles[userInput[i + 1].row][userInput[i + 1].column]
+        }
       }
+      return permutation.split('').sort().join('')
     }
-    return permutation.split('').sort().join('')
   }
 
   checkNeighbors(currentInput, nextInput) {
