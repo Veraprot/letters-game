@@ -6,4 +6,4 @@ const DictionarySchema = new Schema({
   words: [String] 
 });
 
-module.exports = User = mongoose.model('dictionaries', DictionarySchema);
+export default mongoose.model('dictionaries', DictionarySchema);
