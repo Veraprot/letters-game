@@ -1,6 +1,6 @@
 import { Router, Request, Response , NextFunction} from 'express';
 import GameService from '../../services/game'
-
+import validateInput from '../../validators/userInput'
 const route = Router();
 
 export default (app: Router) => {
@@ -30,7 +30,13 @@ export default (app: Router) => {
 
       const {id} = req.params
       const {selected} = req.body
-    try {
+      const { errors, isValid } = validateInput(req.body);
+
+      if (!isValid) {
+        return res.status(400).json(errors);
+      }
+
+      try {
         let game = await GameService.findById(id)
         let userAnswer = GameService.parseUserData(selected, game.tiles)
 
@@ -45,7 +51,7 @@ export default (app: Router) => {
 
       } catch (e) {
         console.log('error:', e);
-        res.json({error: "something went wrong"})
+        res.json({error: e})
         return next(e);
       }
     },

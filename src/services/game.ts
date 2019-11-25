@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import Game from '../models/game'
+
 class GameService {
   async create(dictionaryId, gameTiles) {
     let game = new Game({
