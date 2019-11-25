@@ -39,12 +39,12 @@ npm install
 ## API Resources: 
 - POST /api/dictionaries 
 - POST /api/games
-- PATCH /api/games/[id]
+- PATCH /api/games/:id
 
 ------------------
 
 ## POST /api/dictionaries
-
+ - Creates a new Dictionary and populates it with items from dictionary.json file 
 ### Response: 
 ```
 {
@@ -97,6 +97,7 @@ npm install
 ```
 ----
 ## POST /api/games
+ - Creates a new game that is affiliated with a dictionary and a generated game board from test-board-1.js file 
 ## Body: 
 |  KEY          |  VALUE            | DESCRIPTION |
 | ------------- | ------------------| ----        |
@@ -132,14 +133,15 @@ npm install
         ]
     ],
     "_id": "5dd843ed4203548d979087d4",
-    "dimentions": 4,
+    "dimensions": 4,
     "dictionary": "5dd82016763a1e7caa1f0daf",
     "__v": 0
 }
 ```
 
 ----
-## PATCH /api/games/[id]
+## PATCH /api/games/:id
+ - Validates user selection against game instance 
 ## Body: 
 |  KEY          |  VALUE                    | DESCRIPTION |
 | ------------- | ------------------        | ----        |

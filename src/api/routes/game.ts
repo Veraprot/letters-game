@@ -10,11 +10,16 @@ export default (app: Router) => {
     '/',
     async (req: Request, res: Response, next: NextFunction) => {
 
+    // Need a unique dictionary id to create a new game instance 
+    // so that later I can compare letter inputs against the words 
+    // in the dictionary that the game is affiliated with 
     const {dictionaryId} = req.body
     try {
       const gameTiles = GameService.buildGameTiles(4)
-        const gameRecord = await GameService.create(dictionaryId, gameTiles)
-        res.status(201).json(gameRecord)
+
+      // 
+      const gameRecord = await GameService.create(dictionaryId, gameTiles)
+      res.status(201).json(gameRecord)
 
       } catch (e) {
         res.json({error: e})
@@ -37,6 +42,7 @@ export default (app: Router) => {
 
       try {
         let game = await GameService.findById(id)
+        //
         let userAnswer = GameService.parseUserData(selected, game.tiles)
 
         if(userAnswer) {

@@ -65,14 +65,13 @@ class GameService {
     for(let i = 0; i < dictionary.length; i++) {
       if(dictionary[i].length == userResult.length) {
         let sortedWord = dictionary[i].split('').sort().join('')
-        if(sortedWord == userResult.toLowerCase()) {
+        if(sortedWord.toLowerCase() == userResult.toLowerCase()) {
           return dictionary[i]
-        }
-        else {
-          return "No word in dictionary matches selection"
         }
       }
     }
+    
+    return "No word in dictionary matches selection"
   }
 }
 
