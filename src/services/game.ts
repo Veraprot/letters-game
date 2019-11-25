@@ -5,7 +5,6 @@ import Game from '../models/game'
 class GameService {
   async create(dictionaryId, gameTiles) {
     let game = new Game({
-      dimentions: 4, 
       tiles: gameTiles,
       dictionary: dictionaryId
     });
@@ -14,7 +13,7 @@ class GameService {
     return newGame
   }
 
-  async findById(gameId) {
+  async findGameById(gameId) {
     let game = await Game
     .findById(gameId)
     .populate('dictionary', ['words'])
@@ -70,7 +69,7 @@ class GameService {
         }
       }
     }
-    
+
     return "No word in dictionary matches selection"
   }
 }
