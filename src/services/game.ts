@@ -11,7 +11,7 @@ class GameService {
     });
   
     let newGame = await game.save()
-    return {game: newGame}
+    return newGame
   }
 
   async findById(gameId) {

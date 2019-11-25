@@ -14,11 +14,10 @@ export default (app: Router) => {
     try {
       const gameTiles = GameService.buildGameTiles(4)
         const gameRecord = await GameService.create(dictionaryId, gameTiles)
-        res.json(gameRecord)
+        res.status(201).json(gameRecord)
 
       } catch (e) {
-        console.log('error:', e);
-        res.json({error: "something went wrong"})
+        res.json({error: e})
         return next(e);
       }
     },
