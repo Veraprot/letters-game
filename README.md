@@ -154,3 +154,12 @@ npm install
     "result": "fab"
 }
 ```
+# Testing 
+## Testing Strategy: 
+Main strategy is ensuring that the API implementation is working correctly as is working as specified according to requirements specification(later documentation).
+
+Main categories that i would test would be:
+1. Happy path or basic positive tests
+2. Positive tests with optional parameters(for example user could specify the size of the board and if no specification was provided it should default to 4x4)
+3. Negative testing with valid input
+4. Invalid input
