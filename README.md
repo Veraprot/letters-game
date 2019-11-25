@@ -155,6 +155,8 @@ npm install
 }
 ```
 # Testing 
+To run tests run ``` jest ``` while running local server 
+
 ## Testing Strategy: 
 Main strategy is ensuring that the API implementation is working correctly as is working as specified according to requirements specification(later documentation).
 

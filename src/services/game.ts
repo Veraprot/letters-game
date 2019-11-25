@@ -68,6 +68,9 @@ class GameService {
         if(sortedWord == userResult.toLowerCase()) {
           return dictionary[i]
         }
+        else {
+          return "No word in dictionary matches selection"
+        }
       }
     }
   }
