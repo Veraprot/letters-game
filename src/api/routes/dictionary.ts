@@ -13,11 +13,9 @@ export default (app: Router) => {
       
     try {
         const dictionaryRecord = await DictionaryService.create()
-        res.json(dictionaryRecord)
-
+        return res.status(201).json(dictionaryRecord)
       } catch (e) {
-        console.log('error:', e);
-        res.json({error: "something went wrong"})
+        res.json({error: e})
         return next(e);
       }
     },
