@@ -40,15 +40,13 @@ class GameService {
   }
 
   parseUserData = (userInput, gameTiles) => {
-    if(userInput.length >= 3) {
-      let permutation = gameTiles[userInput[0].row][userInput[0].column]
-      for(let i = 0; i < userInput.length - 1; i++) {
-        if(this.checkNeighbors(userInput[i], userInput[i + 1])) {
-          permutation += gameTiles[userInput[i + 1].row][userInput[i + 1].column]
-        }
+    let permutation = gameTiles[userInput[0].row][userInput[0].column]
+    for(let i = 0; i < userInput.length - 1; i++) {
+      if(this.checkNeighbors(userInput[i], userInput[i + 1])) {
+        permutation += gameTiles[userInput[i + 1].row][userInput[i + 1].column]
       }
-      return permutation.split('').sort().join('')
     }
+    return permutation.split('').sort().join('')
   }
 
   checkNeighbors(currentInput, nextInput) {
@@ -60,6 +58,22 @@ class GameService {
     )
   }
 
+  // Instead of iterating over each word in dictionary 
+  // I should have created a key/value store that would have 
+  // keys of alphabetically sorted words that would hold an array 
+  // of all the anagram words associated with it 
+  // that way I would have an instant look up time which would increase my performance 
+  // Example: 
+  // Given an array 
+  // ['elbow', 'below', 'cat', 'act', 'array', 'fab']
+  // I should have generated: 
+  // {
+  //   "below": ["elbow", "below"], 
+  //   "act": ["act", "cat"], 
+  //   "array": ["array"], 
+  //   "fab": ["fab"]
+  // }
+  // That way when i was parsing user input and comparing User's sorted selection of characters i would check if the hash has a key with User selection
   compareUserAnswer(dictionary, userResult) {
     for(let i = 0; i < dictionary.length; i++) {
       if(dictionary[i].length == userResult.length) {
