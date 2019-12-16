@@ -1,10 +1,10 @@
 import { Router, Request, Response , NextFunction} from 'express';
 import GameService from '../../services/game'
 import validateInput from '../../validators/userInput'
-const route = Router();
+const route = Router({mergeParams: true});
 
 export default (app: Router) => {
-  app.use('/games', route);
+  app.use('/dictionaries/:dictionary_id/games', route);
 
   route.post(
     '/',
@@ -13,7 +13,7 @@ export default (app: Router) => {
     // Need a unique dictionary id to create a new game instance 
     // so that later I can compare letter inputs against the words 
     // in the dictionary that the game is affiliated with 
-    const {dictionary_id} = req.body
+    const {dictionary_id} = req.params
     try {
       const gameTiles = GameService.buildGameTiles(4)
 
@@ -29,10 +29,10 @@ export default (app: Router) => {
   );
 
   route.patch(
-    '/:id',
+    '/:game_id',
     async (req: Request, res: Response, next: NextFunction) => {
 
-      const {id} = req.params
+      const {game_id} = req.params
       const {selected} = req.body
       const { errors, isValid } = validateInput(req.body);
 
@@ -41,9 +41,8 @@ export default (app: Router) => {
       }
 
       try {
-        let game = await GameService.findGameById(id)
+        let game = await GameService.findGameById(game_id)
         let userAnswer = GameService.parseUserData(selected, game.tiles)
-
         if(userAnswer) {
           let gameResult = GameService.compareUserAnswer(game.dictionary.words, userAnswer)
 

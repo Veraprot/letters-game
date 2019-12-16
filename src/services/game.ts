@@ -30,7 +30,7 @@ class GameService {
       let row = []
   
       for(let k = 0; k < boardSize; k++) {
-        row.push(letters[i*boardSize + k]);
+        row.push(letters[i*boardSize + k].toLowerCase());
       }
   
       gameTiles.push(row)
@@ -58,32 +58,11 @@ class GameService {
     )
   }
 
-  // Instead of iterating over each word in dictionary 
-  // I should have created a key/value store that would have 
-  // keys of alphabetically sorted words that would hold an array 
-  // of all the anagram words associated with it 
-  // that way I would have an instant look up time which would increase my performance 
-  // Example: 
-  // Given an array 
-  // ['elbow', 'below', 'cat', 'act', 'array', 'fab']
-  // I should have generated: 
-  // {
-  //   "below": ["elbow", "below"], 
-  //   "act": ["act", "cat"], 
-  //   "array": ["array"], 
-  //   "fab": ["fab"]
-  // }
-  // That way when i was parsing user input and comparing User's sorted selection of characters i would check if the hash has a key with User selection
   compareUserAnswer(dictionary, userResult) {
-    for(let i = 0; i < dictionary.length; i++) {
-      if(dictionary[i].length == userResult.length) {
-        let sortedWord = dictionary[i].split('').sort().join('')
-        if(sortedWord.toLowerCase() == userResult.toLowerCase()) {
-          return dictionary[i]
-        }
-      }
+    let selectedWord = dictionary.get(userResult)
+    if(selectedWord) {
+      return selectedWord
     }
-
     return "No word in dictionary matches selection"
   }
 }
