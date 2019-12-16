@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const DictionarySchema = new Schema({
-  words: [String] 
+  words: {
+    type: Map,
+    of: String
+  }
 });
 
 export default mongoose.model('dictionaries', DictionarySchema);

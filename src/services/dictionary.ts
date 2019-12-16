@@ -1,5 +1,4 @@
 import Dictionary from '../models/dictionary'
-import DictionaryStore from '../models/dictionaryStore'
 import fs from 'fs'
 import path from 'path'
 class DictionaryService {
@@ -19,12 +18,12 @@ class DictionaryService {
     }
     console.log(permutationStore)
 
-    let dictionaryStore = new DictionaryStore({
+    let dictionary = new Dictionary({
       words: permutationStore 
     });
   
-    let newDictionaryStore = await dictionaryStore.save()
-    console.log(newDictionaryStore)
+    let newDictionary = await dictionary.save()
+    console.log(newDictionary)
   }
 }
 
