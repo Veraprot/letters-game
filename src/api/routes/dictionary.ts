@@ -10,8 +10,7 @@ export default (app: Router) => {
   route.post(
     '/',
     async (req: Request, res: Response, next: NextFunction) => {
-      
-    try {
+      try {
         const dictionaryRecord = await DictionaryService.create()
         return res.status(201).json(dictionaryRecord)
       } catch (e) {
