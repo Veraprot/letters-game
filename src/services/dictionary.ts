@@ -23,7 +23,7 @@ class DictionaryService {
     });
   
     let newDictionary = await dictionary.save()
-    console.log(newDictionary)
+    return newDictionary
   }
 }
 
