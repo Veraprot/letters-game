@@ -6,18 +6,28 @@ const route = Router({mergeParams: true});
 export default (app: Router) => {
   app.use('/dictionaries/:dictionary_id/games', route);
 
+  route.get(
+    '/', 
+    async(req: Request, res: Response, next: NextFunction) => {
+      const {dictionary_id} = req.params
+
+      try {
+        let games = await GameService.get()
+        res.status(200).json({games})
+      } catch(e) {
+        res.status(e.status).json({message: e.message})
+        return next(e);
+      }
+    }
+  )
   route.post(
     '/',
     async (req: Request, res: Response, next: NextFunction) => {
 
-    // Need a unique dictionary id to create a new game instance 
-    // so that later I can compare letter inputs against the words 
-    // in the dictionary that the game is affiliated with 
     const {dictionary_id} = req.params
     try {
       const gameTiles = GameService.buildGameTiles(4)
 
-      // 
       const gameRecord = await GameService.create(dictionary_id, gameTiles)
       res.status(201).json(gameRecord)
 

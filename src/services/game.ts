@@ -3,6 +3,10 @@ import path from 'path'
 import Game from '../models/game'
 
 class GameService {
+  async get() {
+    return await Game.find({})
+  }
+
   async create(dictionaryId, gameTiles) {
     let game = new Game({
       tiles: gameTiles,
